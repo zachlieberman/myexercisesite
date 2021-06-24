@@ -1,0 +1,72 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Other's Workout" %}{% endblock %}
+
+{% block content %}
+
+<h2 style="text-align:center">{% trans "Recent News Articles" %}</h2>
+
+<ul class="list-group" style='padding-top: 10px; padding-bottom: 10px; padding-left: 375px; padding-right: 375px'>
+    <a href="view_articles_nutrition" class="list-group-item list-group-item-success"><u>Click here</u> to view recent delicious
+        and nutritious <b>food and recipe-related articles</b> from <i>The New York Times.</i></a>
+    <a href="view_articles_health" class="list-group-item list-group-item-info"><u>Click here</u> to view recent <b>health-related</b>
+        articles from <i>The New York Times.</i></a>
+    <a href="view_articles_sports" class="list-group-item list-group-item-success"><u>Click here</u> to view recent <b>sports-related</b>
+        articles from <i>The New York Times.</i></a>
+</ul>
+
+<h2 style="text-align:center">{% trans "Community Activity" %}</h2>
+
+    <div class = "container">
+        <div class="justify-content-md-center">
+        <div class="row justify-content-center" style='padding-bottom: 10px'>
+        <div class="col-md-6">
+                    <div class="text-center">
+
+            {% if recentWorkout|length == 0 %}
+            There are no public workouts to display.
+            
+            {% else %}
+            {% for exercise in recentWorkout %}
+
+<!--                     <div class="card">-->
+
+<!--                            User email: {{ exercise.user.email }}<br/>-->
+<!--                            Partner: {{exercise.partner_username}}<br/>-->
+<!--                            Workout Type: {{ exercise.workout_type }} <br/>-->
+<!--                            Duration: {{exercise.duration}} <br/>-->
+<!--                            Date: {{exercise.date}}<br/>-->
+<!--                            Note: {{exercise.note}}-->
+<!--                        -->
+<!--                    </div>-->
+
+            {% if not exercise.is_private %}
+
+                <ul class="list-group" style='padding-top: 10px; padding-bottom: 10px'>
+                    <li class="list-group-item list-group-item-info"><b>User:</b> {{ exercise.user.username }}</li>
+                    <li class="list-group-item list-group-item-success"><b>Workout Type:</b> {{ exercise.workout_type }}</li>
+                    {% if exercise.partner_username %}
+                    <li class="list-group-item list-group-item-success"><b>Partner:</b> {{exercise.partner_username}}</li>
+                    {% endif %}
+                    <li class="list-group-item list-group-item-success"><b>Duration:</b> {{ exercise.duration }}</li>
+                    <li class="list-group-item list-group-item-success"><b>Date:</b> {{exercise.date}}</li>
+                    <li class="list-group-item list-group-item-success"><b>Notes:</b> {{ exercise.note }}</li>
+                </ul>
+
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+                    </div>
+        </div>
+        </div>
+        </div>
+    </div>
+
+
+
+
+        
+    {% endblock %}
+    

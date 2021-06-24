@@ -1,0 +1,42 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Account" %}{% endblock %}
+
+{% block content %}
+
+<h2 style="text-align:center">Log Your Nutrition!</h2>
+
+<div class="container" style="text-align:center">
+
+    <div class="form-group">
+        <div class="row justify-content-md-center">
+        <div class="col-8">
+            <form action="{% url 'nutrition' %}" class="alert alert-success" method="POST">
+                {% csrf_token %}
+
+                <h4>Which meal are you logging? </h4>
+                <h5><i>ex. breakfast, lunch, dinner, snack, etc.</i></h5>
+                <div class="form-title" required>
+                    {{ form.title }}
+                </div>
+
+                <div style="line-height:75%;">
+                    <br>
+                </div>
+                <h4>What did you have? </h4>
+                <div class="form-text" required>
+                    {{ form.text }}
+                </div>
+
+                <button class="btn btn-primary" type='submit' style='margin-top: 10px'>Submit</button>
+            </form>
+        </div>
+        </div>
+    </div>
+
+</div>
+
+
+{% endblock %}

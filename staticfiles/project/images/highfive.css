@@ -1,0 +1,10 @@
+.yay{
+    height: 1000px;
+    width: 1250px;
+    display: block;
+    margin: auto;
+}
+
+body {
+    background: white url("images/highfive.gif") no-repeat;
+}

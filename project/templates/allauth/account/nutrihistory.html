@@ -1,0 +1,55 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Account" %}{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row justify-content-center" >
+    <div class="col-md-6">
+    <div class="text-center">
+    <h2 style="text-align:center">Nutrition Log History</h2>
+    </div>
+    </div>
+    </div>
+</div>
+
+<div class="container" style='padding-bottom: 10px'>
+    <div class="row justify-content-center">
+    <div class="col-md-6">
+    <div class="text-center">
+        {% if all_logs %}
+        <dl>
+            {% for log in all_logs reversed %}
+            <ul class="list-group" style='padding-top: 10px'>
+                <li class="list-group-item list-group-item-info"><b>{{ log.title }}</b></li>
+                <li class="list-group-item list-group-item-success"><b>Date:</b> {{ log.date }}</li>
+                <li class="list-group-item list-group-item-success"><b>I had:</b> {{ log.text }}</li>
+                
+                <!--Allows users to delete nutrition logs-->
+                {%if log.user.username == user.username %}
+
+                    <form action="delete_nutrition" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" value="{{log.id}}" name="remove">
+                        <input type="submit" class="btn btn-danger btn-sm" value="Delete Nutrition Entry" name="to_remove">
+
+                    </form>
+
+                {% endif %}
+
+            </ul>
+
+            {% endfor %}
+        </dl>
+        {% else %}
+        <h3  style="text-align:center">No nutrition logs exist.</h3>
+        {% endif %}
+    </div>
+    </div>
+    </div>
+</div>
+
+{% endblock %}

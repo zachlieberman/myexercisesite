@@ -1,0 +1,213 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+
+  {% load static %}
+<!-- CSS Custom File -->
+<link href="{% static 'project/images/logo.css' %}" rel="stylesheet">
+
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+
+  <title>{% block head_title %}{% endblock %}</title>
+  {% block extra_head %}
+  {% endblock %}
+</head>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" style="position:relative; -20px" href="{% url 'profile' %}"><img class="logo" src="{% static 'project/images/navbarlogo.png' %}" alt=""></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+
+<div class="nav-item dropdown" style='padding-right: 10px; position:relative; left:-30px'>
+        <a class="btn btn-secondary dropdown-toggle" href="{% url 'profile' %}" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Profile
+        </a>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <a class="dropdown-item" href="{% url 'profile' %}">My Profile</a>
+          <a class="dropdown-item" href="{% url 'email' %}">Email Settings</a>
+          <a class="dropdown-item" href="{% url 'logout' %}">Sign Out</a>
+        </div>
+      </div>
+
+      <div class="nav-item dropdown" style='padding-right: 10px; position:relative; left:-30px'>
+        <a class="btn btn-secondary dropdown-toggle" href="{% url 'profile' %}" role="button" id="dropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Workouts
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="{% url 'logWorkout' %}" >Log Workouts</a>
+          <a class="dropdown-item" href="{% url 'recentWorkouts' %}">My Workout History</a>
+        </div>
+      </div>
+      <div class="nav-item dropdown" style='padding-right: 10px; position:relative; left:-30px'>
+        <a class="btn btn-secondary dropdown-toggle" href="{% url 'profile' %}" role="button" id="dropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Nutrition
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="{% url 'nutrition' %}" >Log Nutrition</a>
+          <a class="dropdown-item" href="{% url 'nutrihistory' %}" >My Nutrition History</a>
+        </div>
+      </div>
+      <div class="nav-item dropdown" style='padding-right: 10px; position:relative; left:-30px'>
+        <a class="btn btn-secondary dropdown-toggle" href="{% url 'profile' %}" role="button" id="dropdownMenuLink3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Posts
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="{% url 'submitPost' %}" >Make a Post</a>
+          <a class="dropdown-item" href="{% url 'myPost' %}" >My Posts</a>
+          <a class="dropdown-item" href="{% url 'allPost' %}">Community Posts</a>
+        </div>
+      </div>
+
+      <div class="nav-item dropdown" style='padding-right: 10px; position:relative; left:-30px'>
+        <a href="{% url 'othersWorkout' %}" class="btn btn-secondary" role="button">Community Activity</a>
+      </div>
+  </div>
+  <div class="nav-item dropdown" style='padding-right: 10px'>
+    <a href="{% url 'recommended' %}" class="btn btn-secondary" role="button">Recommended Workouts</a>
+  </div>
+  <form class="form-inline my-2 my-lg-0" method="POST" action="{% url 'userList' %}">
+         {% csrf_token %}
+      <input class="form-control mr-sm-2" type="search" placeholder="Search by username" aria-label="Search" name="user_search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Enter</button>
+    </form>
+</nav>
+
+
+</ul>
+</div>
+</nav>
+
+
+    <body>
+        <style>
+            body {
+            font-family: "Roboto", sans-serif;
+            font-size: 17px;
+            background-color: #fdfdfd;
+        }
+        .shadow {
+            box-shadow: 0 4px 2px -2px rgba(0, 0, 0, 0.1);
+        }
+        .btn-danger {
+            color: #fff;
+            background-color: #f00000;
+            border-color: #dc281e;
+        }
+        .masthead {
+            background: #d9edf7;
+            height: auto;
+            padding-bottom: 15px;
+            box-shadow: 0 16px 48px #E3E7EB;
+            padding-top: 10px;
+        }
+    </style>
+
+        {% block sidebar %}
+
+<style>
+        .card{
+            box-shadow: 0 16px 48px #E3E7EB;
+        }
+       
+</style>
+<body>
+
+<!-- Sidebar Widgets Column -->
+<div class="col-md-4 float-right ">
+<div class="card my-4">
+        <h5 class="card-header">Recommended Workouts of the Day:</h5>
+    <div class="card-body">
+        <p class="card-text"> Top core workouts of the day: </p>
+        <a href="https://www.self.com/gallery/10-minute-core-workout"
+           class="btn btn-primary">Workout 1</a>
+        <a href="https://barbend.com/best-core-exercises/"
+           class="btn btn-primary">Workout 2</a>
+        <p></p>
+        <p class="card-text"> Top Bicep workouts of the day: </p>
+        <a href="https://www.coachmag.co.uk/fitness/arms-workouts"
+           class="btn btn-primary">Workout 1</a>
+        <a href="https://www.thrillist.com/health/nation/best-arm-exercises-workout-routines-for-women-men"
+           class="btn btn-primary">Workout 2</a>
+        <p></p>
+        <p class="card-text"> Top Leg workouts of the day: </p>
+        <a href="https://barbend.com/best-leg-exercises/"
+           class="btn btn-primary">Workout 1</a>
+        <a href="https://food.ndtv.com/health/6-incredible-leg-workouts-for-men-and-women-to-tone-up-1656468"
+           class="btn btn-primary">Workout 2</a>
+
+    </div>
+</div>
+</div>
+
+{% endblock sidebar %}
+
+        {% block content %}
+<style>
+    body {
+        font-family: "Roboto", sans-serif;
+        font-size: 18px;
+        background-color: #fdfdfd;
+    }
+    
+    .head_text {
+        color: white;
+    }
+    
+    .card {
+        box-shadow: 0 16px 48px #E3E7EB;
+    }
+</style>
+
+<header class="masthead">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class=" col-md-8 col-md-10 mx-auto">
+                <div class="site-heading">
+                    <h3 class=" site-heading my-4 mt-3 text-black"> Workout of the day </h3>
+                    <p class="text-dark">Daily workout suggestions and content updates &nbsp
+                    </p>
+                    <img src="{% static 'project/images/deadlift.png' %}"
+                    width = 600 alt=""></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="container">
+    <div class="row">
+        <!-- Blog Entries Column -->
+        <div class="col-md-8 mt-3 left">
+            {% for recommended in recommended_list %}
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h2 class="card-title">{{ recommended.title }}</h2>
+                    <p class="card-text text-muted h6">{{ recommended.author }} | {{ recommended.created_on}} </p>
+                    <p class="card-text">{{recommended.content|slice:":200" }}</p>
+                    <a href="{% url 'recommended_detail' recommended.slug  %}" class="btn btn-primary">Read More &rarr;</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+       
+    </div>
+</div>
+{%endblock%}
+        <!-- Footer -->
+
+    </body>
+</html>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-6077354eed81d2fb"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>

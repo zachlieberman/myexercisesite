@@ -1,0 +1,28 @@
+{% extends "account/base.html" %}
+{% load i18n %}
+
+{% block head_title %}{% trans "Chat" %}{% endblock %}
+
+{% block content %}
+<h2 style="text-align:center">{% trans "Make a Post" %}</h2>
+<div class = "container-fluid">
+  <div class="row justify-content-md-center">
+      <div class="col-8">
+        
+<form action="{% url 'postHandling' %}" class="alert alert-success" method="post">
+  {% csrf_token %}
+    <div class="form-group">
+      <h4>What would you like to post?</h4>
+      <input class="form-control" type="text" placeholder="Your Post Title"  name = "post_title" autocomplete="off">
+      <div style="line-height:75%;">
+        <br>
+      </div>
+      <textarea class="form-control" name="post_content" rows="3" placeholder="Your Post Content" autocomplete="off"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary mb-2">Submit</button>
+</form>
+</div>
+</div>
+</div>
+
+{% endblock %}

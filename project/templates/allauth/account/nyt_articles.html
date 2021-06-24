@@ -1,0 +1,29 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+
+<div>
+    <p style='padding-top: 10px; padding-bottom: 10px; padding-left: 30px; padding-right: 30px'>{{copyright}}</p>
+
+     {% for elem in results %}
+
+    <ul class="list-group" style='padding-top: 10px; padding-bottom: 10px; padding-left: 30px; padding-right: 30px'>
+        <li class="list-group-item list-group-item-info"><b>Title:</b> {{ elem.title }}</li>
+        <a href={{elem.url}} class="list-group-item list-group-item-success"><b>URL:</b> {{ elem.url }}</a>
+    </ul>
+
+
+    {% endfor %}
+
+</div>
+{% else %}
+<script> window.location.replace("{% url 'account_login' %}"); </script>
+{% endif %}
+
+
+
+{% endblock %}

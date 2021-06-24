@@ -1,0 +1,53 @@
+
+{% load i18n %}
+{% load account socialaccount %}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+
+<!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">MyExerciseSite</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'login' %}">Sign In <span class="sr-only">(current)</span></a>
+      </li>
+    </ul>
+  </div>
+</nav> -->
+
+{% load static %}
+<!-- CSS Custom File -->
+<link href="{% static 'project/images/login.css' %}" rel="stylesheet">
+
+{% block content %}
+
+<br><br><br><br><br><br><br>
+
+<a><img class="logo" src="{% static 'project/images/loginlogo.png' %}" alt=""></a>
+
+<!-- <h1 style="text-align:center; padding-top: 40px">{% trans "Sign In" %}</h1> -->
+
+<br>
+
+{% get_providers as socialaccount_providers %}
+
+<div class="socialaccount_ballot" style="text-align:center">
+
+    <h4 style="text-align:center">Please sign up or sign in using Google: </h4>
+    <ul class="socialaccount_providers text-center" style="list-style-type: none; padding: 0;">
+        {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+    </ul>
+
+</div>
+
+{% include "socialaccount/snippets/login_extra.html" %}
+
+
+{% endblock %}
+
+

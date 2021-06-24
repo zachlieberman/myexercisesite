@@ -1,0 +1,81 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+
+
+
+{% if none_true %}
+<div class=".container-fluid">
+    <div class="row justify-content-md-center">
+        <div class="alert alert-info">
+            Select a favorited account to view their public workouts at this link.
+        </div>
+    </div>
+</div>
+
+{% elif user.is_authenticated %}
+<div class="container">
+    <div class="row justify-content-center" >
+    <div class="col-md-6">
+    <div class="text-center">
+        {% if all_workouts %}
+        {%if username %}
+        <h2 style="text-align:center">@{{ username }}'s Recent Workouts</h2>
+        
+        {% else %}
+        <h2 style="text-align:center">Recent Workouts</h2>
+        {% endif %}
+        <dl>
+            {% if level %}
+            <h4>Level {{level}}<div class="pull-right"><em>Total Points: {{up.points}} / To next level: {{remainder}}</em></div></h4>
+            <div class="progress">
+            <div class="progress-bar" role="progressbar" style="width: {{percentage}}%" aria-valuenow="{{percentage}}" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            {% endif %}
+            {% for workout in all_workouts %}
+            <ul class="list-group" style='padding-top: 10px'>
+                <li class="list-group-item list-group-item-info"><b>{{ workout.workout_type }}</b></li>
+                <li class="list-group-item list-group-item-success"><b>Workout Creator:</b> {{ workout.user.username }}</li>
+                {% if workout.partner_username %}
+                <li class="list-group-item list-group-item-success"><b>Partner:</b> {{ workout.partner_username }}</li>
+                {% endif %}
+                <li class="list-group-item list-group-item-success"><b>Duration:</b> {{ workout.duration }}</li>
+                <li class="list-group-item list-group-item-success"><b>Date:</b> {{ workout.date }}</li>
+                <li class="list-group-item list-group-item-success"><b>Notes:</b> {{ workout.note }}</li>
+
+                <!--Allows users to delete workouts they have created (not workouts they are partners on/were added to)-->
+                {%if workout.user.username == user.username %}
+
+                    <form action="delete_workout" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" value="{{workout.id}}" name="remove">
+                        <input type="submit" class="btn btn-danger btn-sm" value="Delete Workout" name="to_remove">
+
+                    </form>
+
+                {% endif %}
+
+            </ul>
+
+            {% endfor %}
+        </dl>
+        {% else %}
+        <h3  style="text-align:center">There are no public workouts to display for this user.</h3>
+        {% endif %}
+    </div>
+    </div>
+    </div>
+</div>
+{% else %}
+<script> window.location.replace("{% url 'account_login' %}"); </script>
+{% endif %}
+
+
+
+{% endblock %}
+
+
+
+

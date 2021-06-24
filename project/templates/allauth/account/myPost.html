@@ -1,0 +1,51 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "My Posts" %}{% endblock %}
+
+{% block content %}
+
+<h2 style="text-align:center">My Post History</h2>
+
+    <div class = "container">
+        <div class="justify-content-md-center">
+            {% if myPost|length == 0 %}
+            <h3  style="text-align:center">There is currently no post record.</h3>
+            
+            {% else %}
+            {% for post in myPost %}
+                
+                     
+                
+                    <!-- reference: https://bootsnipp.com/snippets/v7B8d-->
+                    <div class="well">
+                        <div class="media">
+                            <div class="media-body">
+                              <h4 class="media-heading">{{post.title}}</h4>
+                            <p>{{ post.content }}</p>
+                            <ul class="list-inline list-unstyled">
+                                <li><span> <i class="glyphicon glyphicon-calendar"></i>{{post.date}} </span></li>
+                                <form action="{% url 'deletePost' %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" value="{{post.id}}" name="postID">
+                                    <br>
+                                    <input type="submit" class="btn btn-danger btn-sm" value="Delete Post" name="submitRemove">
+                                </form>
+                            </ul>
+                             
+                         </div>
+                      </div>
+                    </div>
+                    
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+
+
+
+
+        
+    {% endblock %}
+    

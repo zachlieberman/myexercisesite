@@ -1,0 +1,14 @@
+language: python
+python:
+- '3.8'
+install:
+- pip install -r requirements-travis.txt
+script:
+- python manage.py test
+deploy:
+  provider: heroku
+  api_key:
+    secure: lRyAK76XKLxhXuIBXDp3X0RiyH9g5giM2obHiLTVxzygx0XU5SxnB4qGbIc0bY90CI5Se3y2f8bKCXynccK9/Rw6r/TuMuLS94vQHRKlPK5zPpfB1XMQq+g0nqyfCefu2JpmJODhuzjIZX9GsnozM/ZihqsUgRENLpseUmlk7mWc+xfFnR0NcVFOBNQ2FKOy5DijBaTscnxefAisSJkPilgaj69Yp/pYecO/TmbXrnwmTt8BY72VjMqs3s3Aaf5Ou6b33Ml8/3AUQ9sX6/Oqh4z1MnAsIg1dGIPNPRamt/5GHQpHnnUvrD3swzz4audmT6/uqaV15JRON/IKfrK0Iz6WYTbh5C3hCm+H+hqXdvpa4pp2IMvcrnqvpvZyEOYq88yw6wKeeAjRMLYKrsEPaA23gB6zCAEU2oDvSWA29D4kVMBVDjYjWYXS/y28hnEXMh6ZWMQh7Vf0cifU68NIZNqEzLnTeL/anzegVk7HQ06yCFR2OVy+Q7JtK5IuPEaiU9PPIFKvIhyG5j+xPFp56488IiA1MMovP1xpg5eiR1gJNp883Aj+MHflSxzG9LJrlN/c4jCvTfNkt82j0ltCQFLaktnFrZXz3zXsq63W7j7lZA1CR98rMmla6iFWKiVY3pYwQsUSqftkaOdWkJRBR0GNVJ3UGAHk1vbFBVY6baQ=
+  app: myexercisesite
+  on:
+    repo: uva-cs3240-s21/project-b-13

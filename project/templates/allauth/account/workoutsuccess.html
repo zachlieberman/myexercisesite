@@ -1,0 +1,35 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Account" %}{% endblock %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="container-fluid" style="text-align:center">
+
+    <a href="{% url 'logWorkout' %}">
+        <h4 style="text-align:left; padding-left: 15px">
+
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+        </svg>
+        Log Your Workout
+
+        </h4>
+    </a>
+
+    <div class="row justify-content-md-center">
+        <div class="alert alert-success">
+            You earned {{request.session.pointsEarned}} points!
+        </div>
+    </div>
+    <h2 style="text-align:center">YAY! You have successfully logged your workout! Good job!</h2>
+    <br>
+    <a><img class="yay" src="{% static 'project/images/highfive.gif' %}" alt=""></a>
+
+</div>
+
+{% endblock %}

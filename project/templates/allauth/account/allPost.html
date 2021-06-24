@@ -1,0 +1,79 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "All Posts" %}{% endblock %}
+
+{% block content %}
+
+
+
+<div class = "container">
+    <div class="justify-content-md-center">
+        {% if highlightPosts|length != 0 %}
+        <div class=".container-fluid">
+            <div class="row justify-content-md-center">
+                <div class="alert alert-success">
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLScHpYK9JbLTtP3f2Af6Qw5p8qYBu2GxDWnnnOeUS9VJ1oawMw/viewform?usp=sf_link">
+                        To <b> report a post for inappropriate content</b>, click this link to be redirected to a Google Form. Thank you for helping MyExerciseSite remain a welcoming and positive app.
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% for post in highlightPosts %}
+
+
+
+        <!-- reference: https://bootsnipp.com/snippets/v7B8d-->
+        <div class="well bg-primary">
+            <div class="media">
+                <div class="media-body">
+                    <h4 class="media-heading"><i class="bi bi-star-fill"></i> {{post.title}}</h4>
+                    <p class="text-right">By {{ post.user }}</p>
+                    <p>{{ post.content }}</p>
+                    <ul class="list-inline list-unstyled">
+                        <li><span> <i class="glyphicon glyphicon-calendar"></i>{{post.date}} </span></li>
+
+
+                </div>
+            </div>
+        </div>
+
+        {% endfor %}
+        {% endif %}
+
+
+        {% if allPosts|length == 0 %}
+        There is currently no post record.
+
+        {% else %}
+        {% for post in allPosts %}
+
+
+
+        <!-- reference: https://bootsnipp.com/snippets/v7B8d-->
+        <div class="well">
+            <div class="media">
+                <div class="media-body">
+                    <h4 class="media-heading">{{post.title}}</h4>
+                    <p class="text-right">By {{ post.user }}</p>
+                    <p>{{ post.content }}</p>
+                    <ul class="list-inline list-unstyled">
+                        <li><span> <i class="glyphicon glyphicon-calendar"></i>{{post.date}} </span></li>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+
+        {% endfor %}
+        {% endif %}
+    </div>
+</div>
+
+
+
+
+
+{% endblock %}
+    

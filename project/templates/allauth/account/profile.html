@@ -1,0 +1,448 @@
+
+{% extends "account/base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Account" %}{% endblock %}
+
+{% block content %}
+
+{% if error_msg %}
+<div class=".container-fluid">
+    <div class="row justify-content-md-center">
+        <div class="alert alert-danger">
+           {{ error_msg }}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<h2 style="text-align:center"><b>@{{ user_name }}'s Profile</b></h2>
+
+<div class=".container-fluid">
+  <div class="container">
+    <div class="row justify-content-center" style='padding-top: 10px'>
+      <div class="col-6">
+        <div class="text-left">
+          <h4>Level {{level}}<div class="pull-right"><em>Total Points: {{up.points}} / To next level: {{remainder}}</em></div></h4>
+          <div class="progress">
+            <div class="progress-bar" role="progressbar" style="width: {{percentage}}%" aria-valuenow="{{percentage}}" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row justify-content-center">
+  <div class="col-11">
+    <div class="text-center">
+      <div style="float: left; width: 30%;">
+
+        <dl>
+            <ul class="list-group" style='padding-top: 0px'>
+              <li class="list-group-item list-group-item-info">
+                <h3> <b> Recent Workout Activity (Your Last 5 Logs): </b> </h3>
+              </li>
+              <li class="list-group-item list-group-item-info">
+                <i>View your complete workout history by navigating to your My Workout History page located under Workouts.</i>
+              </li>
+        </dl>
+
+          {% if all_logs %}
+          
+          {% for workout in all_logs %}
+          <dl>
+            <ul class="list-group" style='padding-top: 5px'>
+                <li class="list-group-item list-group-item-info"><b>{{ workout.workout_type }}</b></li>
+                <li class="list-group-item list-group-item-success"><b>Workout Creator:</b> {{ workout.user.username }}</li>
+                {% if workout.partner_username %}
+                <li class="list-group-item list-group-item-success"><b>Partner:</b> {{ workout.partner_username }}</li>
+                {% endif %}
+                <li class="list-group-item list-group-item-success"><b>Duration:</b> {{ workout.duration }}</li>
+                <li class="list-group-item list-group-item-success"><b>Date:</b> {{ workout.date }}</li>
+                <li class="list-group-item list-group-item-success"><b>Notes:</b> {{ workout.note }}</li>
+
+            </ul>
+          </dl>
+            {% endfor %}
+        
+        {% else %}
+        <h3  style="text-align:center">There are no public workouts to display for this user.</h3>
+        {% endif %}
+
+      
+      </div>
+
+      <div style="float: left; width: 40%; padding-left: 38px; padding-right: 38px">
+      
+      <dl>
+            <ul class="list-group" style='padding-top: 0px'>
+              <li class="list-group-item list-group-item-info">
+                <h3><b> Profile Info </b></h3>
+              </li>
+              <li class="list-group-item list-group-item-info">
+                Click here to edit your info: <a href="{% url 'editProfile' %}" class="btn btn-info" role="button"><b>Edit Profile</b></a>
+              </li>
+
+              <li class="list-group-item list-group-item-success">
+                {% if up.firstName %}
+                <p>
+                  <b> First Name: </b> {{up.firstName}}
+                </p>
+                {% else %}
+                <p>
+                  <b> First Name: </b> <i> No first name entered. </i>
+                </p>
+                {% endif %}
+              </li>
+              <li class="list-group-item list-group-item-success">
+                {% if up.lastName %}
+                <p>
+                  <b> Last Name: </b> {{up.lastName}}
+                </p>
+                {% else %}
+                <p>
+                  <b> Last Name: </b> <i> No last name entered. </i>
+                </p>
+                {% endif %}
+              </li>
+              <li class="list-group-item list-group-item-success">
+                {% if up.weight %}
+                <p>
+                  <b> Weight (lbs): </b> {{up.weight}}
+                </p>
+                {% else %}
+                <p>
+                  <b> Weight (lbs): </b> <i> No weight entered. </i>
+                </p>
+                {% endif %}
+              </li>
+            </ul>
+          </dl>
+      
+      </div>
+      
+      <div style="float: right; width: 30%;">
+      
+      <dl>
+            <ul class="list-group" style='padding-top: 0px'>
+              <li class="list-group-item list-group-item-info">
+                <h3><b> Favorited Profiles (Up to 5): </b></h3>
+              </li>
+              <li class="list-group-item list-group-item-info">
+                <i>To add a user to your favorites, search for them in the search bar above.</i>
+              </li>
+
+      </dl>
+
+      {% if favorites_list %}
+
+      {% for favorite in favorites_list %}
+
+      <dl>
+              <ul class="list-group" style='padding-top: 5px'>
+                <li class="list-group-item list-group-item-info"><b>User:</b> {{favorite.user}}</li>
+                <li class="list-group-item list-group-item-success">
+                  <form action="view_favorite" method="post">
+                    {% csrf_token %}
+
+                    <input type="hidden" value="{{favorite.user}}" name="clicked">
+                    <div style="line-height:90%;">
+                      <br>
+                    </div>
+                    <input type="submit" class="btn btn-primary btn-sm" value="View {{favorite.user}}'s workouts" name="favorite_click">
+                  </form>
+
+                  <form action="delete_favorite" method="post">
+                    {% csrf_token %}
+
+                    <input type="submit" class="btn btn-danger btn-sm" value="Remove {{favorite.user}} from favorites" name="to_remove">
+
+                  </form>
+                </li>
+
+              </ul>
+            </dl>
+        {% endfor %}
+
+      {% else %}
+      <div class="row justify-content-md-center">
+        No favorited profiles.
+      </div>
+      {%endif%}
+        
+      
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--Profile Information-->
+<!--<div class=".container-fluid">
+
+  <div class="container">
+    <div class="row justify-content-left" style='padding-top: 10px'>
+      <div class="col-6">
+        <div class="text-center">-->
+          <!--<h4>Level {{level}}<div class="pull-right"><em>Total Points: {{up.points}} / To next level: {{remainder}}</em></div></h4>
+          <div class="progress">
+            <div class="progress-bar" role="progressbar" style="width: {{percentage}}%" aria-valuenow="{{percentage}}" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>-->
+<!--
+          <dl>
+            <ul class="list-group" style='padding-top: 0px'>
+              <li class="list-group-item list-group-item-info">
+                Click here to edit your info: <a href="{% url 'editProfile' %}" class="btn btn-info" role="button"><b>Edit Profile</b></a>
+              </li>
+
+              <li class="list-group-item list-group-item-info">
+                <b> Profile Info </b>
+              </li>
+              <li class="list-group-item list-group-item-success">
+                {% if up.firstName %}
+                <p>
+                  <b> First Name: </b> {{up.firstName}}
+                </p>
+                {% else %}
+                <p>
+                  <b> First Name: </b> <i> No first name entered. </i>
+                </p>
+                {% endif %}
+              </li>
+              <li class="list-group-item list-group-item-success">
+                {% if up.lastName %}
+                <p>
+                  <b> Last Name: </b> {{up.lastName}}
+                </p>
+                {% else %}
+                <p>
+                  <b> Last Name: </b> <i> No last name entered. </i>
+                </p>
+                {% endif %}
+              </li>
+              <li class="list-group-item list-group-item-success">
+                {% if up.weight %}
+                <p>
+                  <b> Weight (lbs): </b> {{up.weight}}
+                </p>
+                {% else %}
+                <p>
+                  <b> Weight (lbs): </b> <i> No weight entered. </i>
+                </p>
+                {% endif %}
+              </li>
+            </ul>
+          </dl>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col" style="position:relative; top: -10px">
+    <h2 style="text-align:center">Favorited Profiles (Up to 5)</h2>
+    <p style="text-align:center"><i>To add a user to your favorites, search for them in the search bar above.</i></p>
+
+    {% if favorites_list %}
+
+    {% for favorite in favorites_list %}
+
+    <div class="container" style='padding-top: 5px; padding-bottom: 10px'>
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <div class="text-center">
+            <dl>
+              <ul class="list-group" style='padding-top: 5px'>
+                <li class="list-group-item list-group-item-info"><b>User:</b> {{favorite.user}}</li>
+                <li class="list-group-item list-group-item-success">
+                  <form action="view_favorite" method="post">
+                    {% csrf_token %}
+
+                    <input type="hidden" value="{{favorite.user}}" name="clicked">
+                    <div style="line-height:90%;">
+                      <br>
+                    </div>
+                    <input type="submit" class="btn btn-primary btn-sm" value="View {{favorite.user}}'s workouts" name="favorite_click">
+                  </form>
+
+                  <form action="delete_favorite" method="post">
+                    {% csrf_token %}
+
+                    <input type="submit" class="btn btn-danger btn-sm" value="Remove {{favorite.user}} from favorites" name="to_remove">
+
+                  </form>
+                </li>
+
+              </ul>
+            </dl>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--      <div class="container">
+            <div class="row">
+              <div class="col-sm">
+                User: {{favorite.user}}
+              </div>
+              <div class="col-sm">
+                <form action="view_favorite" method="post">
+                  {% csrf_token %}
+
+                  <input type="hidden" value="{{favorite.user}}" name="clicked">
+                  <input type="submit" class="btn btn-primary btn-sm" value="View {{favorite.user}}'s workouts" name="favorite_click">
+                </form>
+              </div>
+              <div class="col-sm">
+                <form action="delete_favorite" method="post">
+                  {% csrf_token %}
+
+                  <input type="submit" class="btn btn-danger btn-sm" value="Remove {{favorite.user}} from favorites" name="to_remove">
+
+                </form>
+              </div>
+            </div>
+          </div>-->
+<!--
+    {% endfor %}
+
+    {% else %}
+    <div class="row justify-content-md-center">
+      No favorited profiles.
+    </div>
+    {%endif%}
+  </div>
+</div>
+</div>-->
+<!--
+<div class="row" style="text-align:center">
+  <div class="column" style='padding-left: 50px; text-align:center'>
+    
+    <div class="container" style="text-align:center">
+      <h2>
+        Log your nutrition:
+      <h2>
+
+      <div class="row" style='padding-top: 20px'>
+        <div class="col form-group">
+            <form action="{% url 'profile' %}" method="POST">
+                {% csrf_token %}
+
+                <h4>which meal are you logging: </h4>
+                <h5>ex. breakfast, lunch, dinner, etc. </h5>
+                <div class="form-title">
+                  {{ form.title }}
+                </div>
+
+                <br>
+                <h4>what did you eat: </h4>
+                <div class="form-text">
+                  {{ form.text }}
+                </div>
+
+                <button class="btn btn-primary" type='submit' style='margin-top: 10px'>Submit</button>
+            </form>
+          </div>
+      </div>
+    </div>
+
+
+    <div class="container-fluid">
+      <h2 style="text-align:center">Last 2 Nutrition Logs:</h2>
+      <br>
+
+        <div class="list-group">
+            {% for log in all_logs %}
+
+                <h5 style="text-align:center">
+                   {{log.date}}
+                </h5>
+                <h4 style="text-align:center">
+                   {{log.title}}
+                </h4>
+                <p style="text-align:center">{{log.text}}</p>
+            {% endfor %}
+        </div>
+
+          <br>
+          <p style="text-align:center"> 
+            <a class="btn btn-primary" href="{% url 'nutrition' %}">See All Nutrition History</a>
+          </p>
+
+    </div>
+
+  </div>
+    
+
+  <div class="column" style='padding-left: 50px; text-align:center'>
+    <div class="container-fluid">
+      <h2 style="text-align:center">right column, maybe for logging workouts?</h2>
+    </div>
+  </div>
+      
+
+</div>
+-->
+
+
+
+<!-- <h2>{% trans "E-mail Addresses" %}</h2>
+{% if user.emailaddress_set.all %}
+<p>{% trans 'The following e-mail addresses are associated with your account:' %}</p>
+<form action="{% url 'account_email' %}" class="email_list" method="post">
+{% csrf_token %}
+<fieldset class="blockLabels">
+{% for emailaddress in user.emailaddress_set.all %}
+<div class="ctrlHolder">
+  <label for="email_radio_{{forloop.counter}}" class="{% if emailaddress.primary %}primary_email{%endif%}">
+  <input id="email_radio_{{forloop.counter}}" type="radio" name="email" {% if emailaddress.primary or user.emailaddress_set.count == 1 %}checked="checked"{%endif %} value="{{emailaddress.email}}"/>
+
+{{ emailaddress.email }} -->
+<!--{% if emailaddress.verified %}
+<span class="verified">{% trans "Verified" %}</span>
+{% else %}
+<span class="unverified">{% trans "Unverified" %}</span>
+{% endif %}-->
+<!-- {% if emailaddress.primary %}<span class="primary">{% trans "Primary" %}</span>{% endif %}
+</label>
+</div>
+{% endfor %}
+<div class="buttonHolder">
+<button class="secondaryAction" type="submit" name="action_primary" >{% trans 'Make Primary' %}</button> -->
+<!--<button class="secondaryAction" type="submit" name="action_send" >{% trans 'Re-send Verification' %}</button>-->
+<!-- <button class="primaryAction" type="submit" name="action_remove" >{% trans 'Remove' %}</button>
+</div>
+</fieldset>
+</form>
+{% else %}
+<p><strong>{% trans 'Warning:'%}</strong> {% trans "You currently do not have any e-mail address set up. Add an email below." %}</p>
+{% endif %}
+<h2>{% trans "Add E-mail Address" %}</h2>
+<form method="post" action="{% url 'account_email' %}" class="add_email">
+  {% csrf_token %}
+  {{ form.as_p}}
+  <button name="action_add" type="submit">{% trans "Add E-mail" %}</button>
+</form> -->
+
+{% endblock %}
+
+
+{% block extra_body %}
+<script type="text/javascript">
+(function() {
+  var message = "{% trans 'Do you really want to remove the selected e-mail address?' %}";
+  var actions = document.getElementsByName('action_remove');
+  if (actions.length) {
+    actions[0].addEventListener("click", function(e) {
+      if (! confirm(message)) {
+        e.preventDefault();
+      }
+    });
+  }
+})();
+</script>
+{% endblock %}
